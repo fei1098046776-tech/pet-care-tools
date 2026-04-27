@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Calorías para Mascotas - PetCalc</title>
+  <meta name="description" content="Calcula exactamente cuántas calorías necesita tu perro o gato al día." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="toxicidad-chocolate.html">Toxicidad Chocolate</a></li>
+        <li><a href="calorias.html" class="highlight">Calorías</a></li>
+        <li><a href="edad-perros.html">Edad del Perro</a></li>
+        <div class="lang-switcher" style="margin-left: 20px; font-size: 0.9rem;">
+          <a href="../cat-calorie-calculator.html" style="color:var(--text-muted);">🇺🇸 EN</a> | <span>🇪🇸 ES</span>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>⚖️ Calculadora Diaria de Calorías</h1>
+      <p>Deja de adivinar. Calcula sus necesidades calóricas exactas (RER y DER) según su peso y nivel de actividad.</p>
+    </div>
+
+    <form id="calorieForm">
+      <div class="form-group">
+        <label>Tipo de Mascota</label>
+        <select id="petType" class="form-control" required>
+          <option value="dog">Perro 🐶</option>
+          <option value="cat">Gato 🐱</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Peso (kg)</label>
+        <input type="number" id="petWeightKg" class="form-control" placeholder="Ej. 10" required step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label>Nivel de Actividad</label>
+        <select id="activityLevel" class="form-control" required>
+          <option value="" disabled selected>Selecciona estado...</option>
+          <option value="1.2">Adulto Castrado (Actividad Normal)</option>
+          <option value="1.6">Adulto Intacto (Actividad Normal)</option>
+          <option value="1.0">Pérdida de Peso (Sobrepeso)</option>
+          <option value="2.0">Perro Activo/De Trabajo</option>
+          <option value="3.0">Cachorro/Gatito (En crecimiento)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn" style="background: var(--secondary);">Calcular Calorías</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Anuncio</div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. No sustituye el consejo veterinario profesional.</p>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  document.getElementById('calorieForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const weightKg = parseFloat(document.getElementById('petWeightKg').value);
+    const multiplier = parseFloat(document.getElementById('activityLevel').value);
+    if(!weightKg || !multiplier) return;
+    const rer = 70 * Math.pow(weightKg, 0.75);
+    const dailyCalories = rer * multiplier;
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    resultBox.className = 'result-box show severity-safe';
+    resultTitle.innerText = `🔥 ${Math.round(dailyCalories)} kcal / día`;
+    resultDesc.innerText = `El requerimiento de energía en reposo (RER) es de ${Math.round(rer)} kcal. Según su actividad, debe comer aprox. ${Math.round(dailyCalories)} calorías al día.`;
+  });
+</script>
+</body>
+</html>

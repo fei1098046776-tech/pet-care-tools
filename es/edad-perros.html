@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversor de Edad de Perro a Humano - PetCalc</title>
+  <meta name="description" content="Calcula la verdadera edad humana de tu perro según el tamaño de su raza." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="toxicidad-chocolate.html">Toxicidad Chocolate</a></li>
+        <li><a href="calorias.html">Calorías</a></li>
+        <li><a href="edad-perros.html" class="highlight">Edad del Perro</a></li>
+        <div class="lang-switcher" style="margin-left: 20px; font-size: 0.9rem;">
+          <a href="../dog-age-converter.html" style="color:var(--text-muted);">🇺🇸 EN</a> | <span>🇪🇸 ES</span>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>🎂 Conversor de Edad de Perro a Humano</h1>
+      <p>Selecciona el tamaño y la edad de tu perro para descubrir cuántos años humanos tiene realmente.</p>
+    </div>
+
+    <form id="ageForm">
+      <div class="form-group">
+        <label>Edad del Perro (Años cronológicos)</label>
+        <input type="number" id="dogAge" class="form-control" placeholder="Ej. 5" required min="1" max="25">
+      </div>
+
+      <div class="form-group">
+        <label>Tamaño / Peso de la Raza</label>
+        <select id="dogSize" class="form-control" required>
+          <option value="" disabled selected>Selecciona el tamaño...</option>
+          <option value="small">Pequeño (Menos de 9 kg) - ej. Chihuahua, Pug</option>
+          <option value="medium">Mediano (10-23 kg) - ej. Beagle</option>
+          <option value="large">Grande (24-45 kg) - ej. Labrador</option>
+          <option value="giant">Gigante (Más de 45 kg) - ej. Gran Danés</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn" style="background: #8b5cf6;">Convertir Edad</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Anuncio</div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. No sustituye el consejo veterinario profesional.</p>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  const ageChart = {
+    small:  [15, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80],
+    medium: [15, 24, 28, 32, 36, 42, 47, 51, 56, 60, 65, 69, 74, 78, 83, 87],
+    large:  [15, 24, 28, 32, 36, 45, 50, 55, 61, 66, 72, 77, 82, 89, 93, 120],
+    giant:  [12, 22, 31, 38, 45, 49, 56, 64, 71, 79, 86, 93, 100, 107, 114, 121]
+  };
+  document.getElementById('ageForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let age = parseInt(document.getElementById('dogAge').value);
+    const size = document.getElementById('dogSize').value;
+    if(!age || !size) return;
+    if(age > 16) age = 16;
+    const humanAge = ageChart[size][age - 1];
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    resultBox.className = 'result-box show severity-safe';
+    resultTitle.innerText = `🎂 ${humanAge} Años Humanos`;
+    let status = "un Adulto";
+    if (age <= 1) status = "un Adolescente";
+    else if (humanAge >= 60) status = "un Senior";
+    resultDesc.innerText = `Tu perro tiene ${age} años, lo que equivale a ${humanAge} años humanos. ¡Oficialmente es ${status}!`;
+  });
+</script>
+</body>
+</html>

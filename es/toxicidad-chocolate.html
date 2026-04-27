@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Toxicidad de Chocolate para Perros - PetCalc</title>
+  <meta name="description" content="Calcula la toxicidad del chocolate para perros. Descubre de inmediato si es peligroso." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="toxicidad-chocolate.html" class="highlight">Toxicidad Chocolate</a></li>
+        <li><a href="calorias.html">Calorías</a></li>
+        <li><a href="edad-perros.html">Edad del Perro</a></li>
+        <div class="lang-switcher" style="margin-left: 20px; font-size: 0.9rem;">
+          <a href="../dog-chocolate-toxicity-calculator.html" style="color:var(--text-muted);">🇺🇸 EN</a> | <span>🇪🇸 ES</span>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>🍫 Calculadora de Toxicidad de Chocolate</h1>
+      <p>¿Tu perro comió chocolate? Ingresa los detalles para calcular el nivel de toxicidad (Dosis de metilxantina).</p>
+    </div>
+
+    <form id="toxicityForm">
+      <div class="form-group">
+        <label>Peso del Perro (kg)</label>
+        <input type="number" id="dogWeightKg" class="form-control" placeholder="Ej. 15" required step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Chocolate</label>
+        <select id="chocType" class="form-control" required>
+          <option value="" disabled selected>Selecciona el tipo...</option>
+          <option value="0.008">Chocolate Blanco (Riesgo muy bajo)</option>
+          <option value="2.25">Chocolate con Leche (Riesgo medio)</option>
+          <option value="5.29">Chocolate Oscuro/Semidulce (Riesgo alto)</option>
+          <option value="13.75">Chocolate para Hornear (Riesgo extremo)</option>
+          <option value="28.21">Cacao en Polvo Seco (Riesgo fatal)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Cantidad Ingerida (gramos)</label>
+        <input type="number" id="chocAmountG" class="form-control" placeholder="Ej. 50" required step="1">
+      </div>
+
+      <button type="submit" class="btn">Calcular Nivel de Riesgo</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Anuncio</div>
+
+  <div style="background: #fff; padding: 30px; border-radius: 12px; margin-bottom: 60px; border: 1px solid var(--border);">
+    <h2>¿Por qué el chocolate es malo para los perros?</h2>
+    <p style="margin-top: 10px; color: var(--text-muted);">El chocolate contiene teobromina y cafeína. Los perros metabolizan estos compuestos mucho más lento que los humanos, causando una acumulación de toxinas. Los síntomas incluyen vómitos, diarrea, respiración rápida y convulsiones. <strong>Si tu perro muestra síntomas, llévalo al veterinario inmediatamente, sin importar el resultado de esta calculadora.</strong></p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. No sustituye el consejo veterinario profesional.</p>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  document.getElementById('toxicityForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const weightKg = parseFloat(document.getElementById('dogWeightKg').value);
+    const mgPerGram = parseFloat(document.getElementById('chocType').value);
+    const amountGrams = parseFloat(document.getElementById('chocAmountG').value);
+    if(!weightKg || !mgPerGram || !amountGrams) return;
+
+    const totalToxins = amountGrams * mgPerGram;
+    const doseMgPerKg = totalToxins / weightKg;
+
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    resultBox.className = 'result-box show';
+
+    if (doseMgPerKg < 20) {
+      resultBox.classList.add('severity-safe');
+      resultTitle.innerText = '🟢 Probablemente Seguro (Riesgo Leve)';
+      resultDesc.innerText = `Dosis: ${doseMgPerKg.toFixed(1)} mg/kg. Puede tener un leve malestar estomacal. Vigílalo.`;
+    } else if (doseMgPerKg >= 20 && doseMgPerKg < 40) {
+      resultBox.classList.add('severity-warning');
+      resultTitle.innerText = '🟠 Advertencia (Riesgo Moderado)';
+      resultDesc.innerText = `Dosis: ${doseMgPerKg.toFixed(1)} mg/kg. Pueden presentarse hiperactividad y ritmo cardíaco elevado. Llama a tu veterinario.`;
+    } else {
+      resultBox.classList.add('severity-danger');
+      resultTitle.innerText = '🔴 PELIGRO (Riesgo Grave/Fatal)';
+      resultDesc.innerText = `Dosis: ${doseMgPerKg.toFixed(1)} mg/kg. Esto puede causar convulsiones o falla cardíaca. LLEVA A TU PERRO A URGENCIAS AHORA.`;
+    }
+  });
+</script>
+</body>
+</html>
