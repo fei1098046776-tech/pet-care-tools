@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Health Blog & Guides - PetCalc</title>
+  <meta name="description" content="Read our latest vet-approved articles on dog nutrition, cat health, and emergency pet care guides." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .blog-header { text-align: center; padding: 60px 0 40px; }
+    .blog-header h1 { font-size: 2.5rem; margin-bottom: 16px; color: var(--text-main); }
+    .blog-header p { color: var(--text-muted); font-size: 1.2rem; }
+    .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding-bottom: 80px; }
+    .article-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+    .article-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(249, 115, 22, 0.05); }
+    .article-img { width: 100%; height: 200px; background-color: #f1f5f9; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .article-content { padding: 24px; display: flex; flex-direction: column; flex-grow: 1; }
+    .article-category { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 800; margin-bottom: 8px; }
+    .article-title { font-size: 1.25rem; margin-bottom: 12px; color: var(--text-main); line-height: 1.4; }
+    .article-excerpt { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; flex-grow: 1; }
+    .article-meta { font-size: 0.85rem; color: #94a3b8; display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 16px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="../index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="../dog-chocolate-toxicity-calculator.html">Chocolate Toxicity</a></li>
+        <li><a href="../cat-calorie-calculator.html">Calorie Calculator</a></li>
+        <li><a href="../dog-age-converter.html">Dog Age</a></li>
+        <li><a href="index.html" class="highlight">Blog</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="blog-header">
+    <h1>Pet Health & Care Guides</h1>
+    <p>Expert articles to keep your furry family members happy and healthy.</p>
+  </div>
+
+  <div class="article-grid">
+    <!-- Article 1 -->
+    <a href="#" class="article-card">
+      <div class="article-img">🍫🐕</div>
+      <div class="article-content">
+        <div class="article-category">Emergency Care</div>
+        <h2 class="article-title">What To Do If Your Dog Eats Chocolate: A Step-by-Step Guide</h2>
+        <p class="article-excerpt">Don't panic. Learn exactly how to assess the situation, use our toxicity calculator, and know when to rush to the emergency vet.</p>
+        <div class="article-meta">
+          <span>By Dr. Sarah Jenkins</span>
+          <span>April 27, 2026</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Article 2 -->
+    <a href="#" class="article-card">
+      <div class="article-img">🥩🐈</div>
+      <div class="article-content">
+        <div class="article-category">Nutrition</div>
+        <h2 class="article-title">The Ultimate Guide to Cat Nutrition: Wet vs Dry Food</h2>
+        <p class="article-excerpt">How many calories does your indoor cat really need? We break down the wet food vs dry food debate and explain Daily Energy Requirements.</p>
+        <div class="article-meta">
+          <span>By PetCalc Team</span>
+          <span>April 26, 2026</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div style="margin-bottom: 20px; display: flex; justify-content: center; gap: 20px;">
+      <a href="../about.html" style="color:var(--text-muted); text-decoration:none;">About Us</a>
+      <a href="../privacy-policy.html" style="color:var(--text-muted); text-decoration:none;">Privacy Policy</a>
+      <a href="../terms-of-service.html" style="color:var(--text-muted); text-decoration:none;">Terms of Service</a>
+      <a href="../contact.html" style="color:var(--text-muted); text-decoration:none;">Contact Us</a>
+    </div>
+    <p>© 2026 PetCalc. Not a substitute for professional veterinary advice.</p>
+  </div>
+</footer>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
