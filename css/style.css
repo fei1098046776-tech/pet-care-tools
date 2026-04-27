@@ -156,3 +156,14 @@ body {
   background: #fff; padding: 40px 0; border-top: 1px solid var(--border);
   text-align: center; margin-top: 60px;
 }
+
+/* MOBILE RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .nav-inner { flex-direction: column; height: auto; padding: 15px 0; gap: 15px; text-align: center; }
+  .nav-links { flex-wrap: wrap; justify-content: center; gap: 15px; }
+  .lang-switcher { margin-left: 0 !important; width: 100%; display: block; margin-top: 10px; }
+  .hero h1 { font-size: 2.2rem; }
+  .hero { padding: 40px 0 30px; }
+  .calc-wrapper { padding: 25px 15px; margin: 20px auto; }
+  .tools-grid { grid-template-columns: 1fr; }
+}
