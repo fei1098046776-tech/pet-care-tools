@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convertisseur d'Âge de Chien - Find Your Dog's True Age</title>
+  <meta name="description" content="The 1 dog year = 7 human years rule is a myth. Use our scientifically-backed calculator to find your dog's true human age based on their breed size." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="dog-chocolate-toxicity-calculator.html">Chocolate Toxicity</a></li>
+        <li><a href="cat-calorie-calculator.html">Calorie Calculator</a></li>
+        <li><a href="dog-age-converter.html" class="highlight">Dog Age</a></li>
+        <div class="lang-switcher" style="margin-left: 20px; font-size: 0.9rem;">
+          <a href="/" style="color:var(--text-muted);">🇺🇸 EN</a> | <a href="/es/" style="color:var(--text-muted);">🇪🇸 ES</a> | <a href="/fr/" style="color:var(--text-muted);">🇫🇷 FR</a> | <a href="/de/" style="color:var(--text-muted);">🇩🇪 DE</a> | <a href="/zh-TW/" style="color:var(--text-muted);">🇹🇼 ZH</a>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>🎂 Convertisseur d'Âge de Chien</h1>
+      <p>Arrêtez de multiplier par 7! Small dogs age much slower than giant breeds. Select your dog's size and age to discover how old they really are in human years.</p>
+    </div>
+
+    <form id="ageForm">
+      <div class="form-group">
+        <label>Dog's Age (Years)</label>
+        <input type="number" id="dogAge" class="form-control" placeholder="e.g. 5" required min="1" max="25">
+      </div>
+
+      <div class="form-group">
+        <label>Dog's Size / Breed Weight</label>
+        <select id="dogSize" class="form-control" required>
+          <option value="" disabled selected>Select size...</option>
+          <option value="small">Small (20 lbs or less) - e.g. Chihuahua, Pug</option>
+          <option value="medium">Medium (21-50 lbs) - e.g. Beagle, Spaniel</option>
+          <option value="large">Large (51-100 lbs) - e.g. Lab, Golden Retriever</option>
+          <option value="giant">Giant (100+ lbs) - e.g. Great Dane, Mastiff</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn" style="background: #8b5cf6;">Convert Age</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Advertisement</div>
+
+  <div style="background: #fff; padding: 30px; border-radius: 12px; margin-bottom: 60px; border: 1px solid var(--border);">
+    <h2>Why the "Multiply by 7" Rule is Wrong</h2>
+    <p style="margin-top: 10px; color: var(--text-muted);">For years, people believed that 1 dog year equals 7 human years. However, veterinary science shows that dogs mature extremely quickly in their first two years (a 1-year-old dog is essentially a 15-year-old teenager). After year two, the aging process slows down, but the rate depends heavily on the breed's size. Giant breeds age much faster in their later years compared to small breeds.</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. Not a substitute for professional veterinary advice.</p>
+  </div>
+</footer>
+
+<script>
+  // Simple AVMA based estimation
+  const ageChart = {
+    small:  [15, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80],
+    medium: [15, 24, 28, 32, 36, 42, 47, 51, 56, 60, 65, 69, 74, 78, 83, 87],
+    large:  [15, 24, 28, 32, 36, 45, 50, 55, 61, 66, 72, 77, 82, 89, 93, 120],
+    giant:  [12, 22, 31, 38, 45, 49, 56, 64, 71, 79, 86, 93, 100, 107, 114, 121]
+  };
+
+  document.getElementById('ageForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let age = parseInt(document.getElementById('dogAge').value);
+    const size = document.getElementById('dogSize').value;
+    
+    if(!age || !size) return;
+    
+    if(age > 16) age = 16; // Cap for the array
+
+    const humanAge = ageChart[size][age - 1];
+
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    
+    resultBox.className = 'result-box show severity-safe';
+    resultTitle.innerText = `🎂 ${humanAge} Human Years Old`;
+    
+    let status = "an Adult";
+    if (age <= 1) status = "a Teenager";
+    else if (humanAge >= 60) status = "a Senior";
+
+    resultDesc.innerText = `Your dog is ${age} years old, which translates to ${humanAge} human years for a ${size} breed. They are officially considered ${status}!`;
+  });
+</script>
+
+</body>
+</html>

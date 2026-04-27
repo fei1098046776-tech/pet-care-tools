@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>寵物每日卡路里計算機 - How Much to Feed Your Cat/Dog</title>
+  <meta name="description" content="Calculate exactly how many calories your dog or cat needs per day to lose, maintain, or gain weight." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="dog-chocolate-toxicity-calculator.html">Chocolate Toxicity</a></li>
+        <li><a href="cat-calorie-calculator.html" class="highlight">Calorie Calculator</a></li>
+        <li><a href="dog-age-converter.html">Dog Age</a></li>
+        <div class="lang-switcher" style="margin-left: 20px; font-size: 0.9rem;">
+          <a href="/" style="color:var(--text-muted);">🇺🇸 EN</a> | <a href="/es/" style="color:var(--text-muted);">🇪🇸 ES</a> | <a href="/fr/" style="color:var(--text-muted);">🇫🇷 FR</a> | <a href="/de/" style="color:var(--text-muted);">🇩🇪 DE</a> | <a href="/zh-TW/" style="color:var(--text-muted);">🇹🇼 ZH</a>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>⚖️ 寵物每日卡路里計算機</h1>
+      <p>不再憑感覺餵食。精準計算所需熱量。 Calculate their precise daily caloric needs (RER and DER) based on weight and activity level.</p>
+    </div>
+
+    <form id="calorieForm">
+      <div class="form-group">
+        <label>Pet Type</label>
+        <select id="petType" class="form-control" required>
+          <option value="dog">Dog 🐶</option>
+          <option value="cat">Cat 🐱</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Weight (lbs)</label>
+        <input type="number" id="petWeight" class="form-control" placeholder="e.g. 15" required step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label>Activity Level & Status</label>
+        <select id="activityLevel" class="form-control" required>
+          <option value="" disabled selected>Select status...</option>
+          <option value="1.2">Neutered/Spayed Adult (Normal Activity)</option>
+          <option value="1.6">Intact Adult (Normal Activity)</option>
+          <option value="1.0">Weight Loss (Overweight)</option>
+          <option value="2.0">Active/Working Dog</option>
+          <option value="3.0">Puppy/Kitten (Growing)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn" style="background: var(--secondary);">Calculate Daily Calories</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Advertisement</div>
+
+  <div style="background: #fff; padding: 30px; border-radius: 12px; margin-bottom: 60px; border: 1px solid var(--border);">
+    <h2>How Do We Calculate This?</h2>
+    <p style="margin-top: 10px; color: var(--text-muted);">We use the standard veterinary formula. First, we calculate the <strong>Resting Energy Requirement (RER)</strong>: <code>70 × (Body Weight in kg)^0.75</code>. Then, we multiply the RER by a multiplier based on your pet's life stage and activity level (Daily Energy Requirement - DER). This gives you the exact kcal per day to keep your furry friend at an optimal weight!</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. Not a substitute for professional veterinary advice.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('calorieForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const weightLbs = parseFloat(document.getElementById('petWeight').value);
+    const multiplier = parseFloat(document.getElementById('activityLevel').value);
+    
+    if(!weightLbs || !multiplier) return;
+
+    // Convert lbs to kg
+    const weightKg = weightLbs / 2.20462;
+    
+    // Calculate RER
+    const rer = 70 * Math.pow(weightKg, 0.75);
+    
+    // Calculate DER (Daily Calories)
+    const dailyCalories = rer * multiplier;
+
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    
+    resultBox.className = 'result-box show severity-safe';
+    resultTitle.innerText = `🔥 ${Math.round(dailyCalories)} kcal / day`;
+    resultDesc.innerText = `Your pet's Resting Energy Requirement (RER) is ${Math.round(rer)} kcal. Based on their activity level, they should eat approximately ${Math.round(dailyCalories)} calories per day. Check your pet food label for "kcal/cup" to determine exact portions.`;
+  });
+</script>
+
+</body>
+</html>
