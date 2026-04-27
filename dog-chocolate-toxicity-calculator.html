@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dog Chocolate Toxicity Calculator - Is My Dog Safe?</title>
+  <meta name="description" content="Calculate chocolate toxicity for dogs. Find out immediately if the amount and type of chocolate your dog ate is dangerous." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo">🐶 Pet<span>Calc</span></a>
+      <ul class="nav-links">
+        <li><a href="dog-chocolate-toxicity-calculator.html">Chocolate Toxicity</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container-sm">
+  <div class="calc-wrapper">
+    <div class="calc-header">
+      <h1>🍫 Dog Chocolate Toxicity Calculator</h1>
+      <p>Did your dog eat chocolate? Enter the details below to instantly calculate the toxicity level (Methylxanthine dose).</p>
+    </div>
+
+    <form id="toxicityForm">
+      <div class="form-group">
+        <label>Dog's Weight (lbs)</label>
+        <input type="number" id="dogWeight" class="form-control" placeholder="e.g. 30" required step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label>Type of Chocolate</label>
+        <select id="chocType" class="form-control" required>
+          <option value="" disabled selected>Select chocolate type...</option>
+          <option value="0.25">White Chocolate (Very Low Toxicity)</option>
+          <option value="64">Milk Chocolate (Medium Toxicity)</option>
+          <option value="150">Dark/Semi-Sweet Chocolate (High Toxicity)</option>
+          <option value="390">Baking Chocolate (Extreme Toxicity)</option>
+          <option value="800">Dry Cocoa Powder (Fatal Toxicity)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Amount Eaten (ounces)</label>
+        <input type="number" id="chocAmount" class="form-control" placeholder="e.g. 2.5" required step="0.1">
+      </div>
+
+      <button type="submit" class="btn">Calculate Toxicity Level</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultDesc" class="result-desc"></div>
+    </div>
+  </div>
+  
+  <div class="ad-slot">Advertisement</div>
+
+  <div style="background: #fff; padding: 30px; border-radius: 12px; margin-bottom: 60px; border: 1px solid var(--border);">
+    <h2>Why is Chocolate Bad for Dogs?</h2>
+    <p style="margin-top: 10px; color: var(--text-muted);">Chocolate contains theobromine and caffeine (both classified as methylxanthines). Dogs metabolize these compounds much slower than humans, leading to a build-up of toxins. Symptoms of toxicity include vomiting, diarrhea, rapid breathing, increased heart rate, and in severe cases, seizures or heart failure. <strong>If your dog is showing symptoms, seek emergency veterinary care immediately regardless of this calculator's result.</strong></p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 PetCalc. Not a substitute for professional veterinary advice.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('toxicityForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const weightLbs = parseFloat(document.getElementById('dogWeight').value);
+    const mgPerOz = parseFloat(document.getElementById('chocType').value);
+    const amountOz = parseFloat(document.getElementById('chocAmount').value);
+    
+    if(!weightLbs || !mgPerOz || !amountOz) return;
+
+    // Convert lbs to kg (1 lb = 0.453592 kg)
+    const weightKg = weightLbs * 0.453592;
+    
+    // Total methylxanthines ingested in mg
+    const totalToxins = amountOz * mgPerOz;
+    
+    // Dose in mg per kg of body weight
+    const doseMgPerKg = totalToxins / weightKg;
+
+    const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    
+    // Reset classes
+    resultBox.className = 'result-box show';
+
+    // Toxicity logic
+    if (doseMgPerKg < 20) {
+      resultBox.classList.add('severity-safe');
+      resultTitle.innerText = '🟢 Likely Safe (Mild Risk)';
+      resultDesc.innerText = `Dose: ${doseMgPerKg.toFixed(1)} mg/kg. Your dog may experience mild stomach upset (diarrhea or vomiting) but severe symptoms are unlikely. Monitor them closely.`;
+    } else if (doseMgPerKg >= 20 && doseMgPerKg < 40) {
+      resultBox.classList.add('severity-warning');
+      resultTitle.innerText = '🟠 Warning (Moderate Risk)';
+      resultDesc.innerText = `Dose: ${doseMgPerKg.toFixed(1)} mg/kg. Hyperactivity, elevated heart rate, and severe stomach issues may occur. You should call your vet for advice.`;
+    } else {
+      resultBox.classList.add('severity-danger');
+      resultTitle.innerText = '🔴 DANGER (Severe/Fatal Risk)';
+      resultDesc.innerText = `Dose: ${doseMgPerKg.toFixed(1)} mg/kg. This dose can cause seizures, tremors, or heart failure. TAKE YOUR DOG TO AN EMERGENCY VET IMMEDIATELY.`;
+    }
+  });
+</script>
+
+</body>
+</html>
