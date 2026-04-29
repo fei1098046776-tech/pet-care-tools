@@ -1,0 +1,90 @@
+name: Weekly Auto-Publish Blog Post
+
+on:
+  schedule:
+    # Runs every Monday at 9:00 AM UTC (5pm Beijing Time)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  publish-article:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Find and publish next draft article
+        id: publish
+        run: |
+          python3 - <<'EOF'
+          import os, shutil, re
+          from datetime import datetime
+
+          drafts_dir = "drafts"
+          blog_dir = "blog"
+          today = datetime.now().strftime("%B %d, %Y")
+
+          # Get all draft files, sorted numerically
+          drafts = sorted([
+              f for f in os.listdir(drafts_dir)
+              if f.endswith(".html") and not f.startswith(".")
+          ])
+
+          if not drafts:
+              print("No more drafts to publish.")
+              exit(0)
+
+          next_draft = drafts[0]
+          src = os.path.join(drafts_dir, next_draft)
+
+          # Create a clean filename for the blog (remove leading number)
+          clean_name = re.sub(r"^\d+-", "", next_draft)
+          dst = os.path.join(blog_dir, clean_name)
+
+          # Read and update publish date in the article
+          with open(src, "r") as f:
+              content = f.read()
+
+          content = content.replace(
+              'class="article-meta">',
+              f'class="article-meta">Published: {today} • '
+          )
+
+          with open(dst, "w") as f:
+              f.write(content)
+
+          # Remove from drafts
+          os.remove(src)
+
+          print(f"✅ Published: {next_draft} → {clean_name}")
+
+          # Set output for next step
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"published_file={clean_name}\n")
+              fh.write(f"had_draft=true\n")
+          EOF
+
+      - name: Regenerate blog index page
+        if: steps.publish.outputs.had_draft == 'true'
+        run: |
+          python3 generate_blog_index.py || echo "Blog index script not found, skipping."
+
+      - name: Regenerate sitemap
+        if: steps.publish.outputs.had_draft == 'true'
+        run: |
+          python3 gen_sitemap.py || echo "Sitemap script not found, skipping."
+
+      - name: Commit and push changes
+        if: steps.publish.outputs.had_draft == 'true'
+        run: |
+          git config user.name "PetCalc Auto Publisher"
+          git config user.email "autopublish@petcalc.vercel.app"
+          git add -A
+          git commit -m "🤖 Auto-publish: ${{ steps.publish.outputs.published_file }}"
+          git push
