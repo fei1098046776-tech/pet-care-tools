@@ -18,8 +18,8 @@ with open(draft_to_publish, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Extract Title
-title_match = re.search(r'<title>(.*?) - PetCalc</title>', content)
-title = title_match.group(1) if title_match else "New Pet Care Article"
+title_match = re.search(r'<title>(.*?)</title>', content)
+title = title_match.group(1).replace(' - PetCalc', '') if title_match else "New Pet Care Article"
 
 # Generate Snippet
 today = datetime.now().strftime("%B %d, %Y")
